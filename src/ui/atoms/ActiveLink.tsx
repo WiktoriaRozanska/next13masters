@@ -10,7 +10,10 @@ export const ActiveLink = ({ href, children }: { href: string; children: ReactNo
 	const isActive = pathname === href;
 	return (
 		// <Link href={href} className={clsx("text-blue-400 hover:text-blue-600", isActive && `underline`)}>
-		<Link href={href} className={clsx("text-blue-400 hover:text-blue-600", { underline: isActive })}>
+		<Link
+			href={{ pathname: href }}
+			className={clsx("text-blue-400 hover:text-blue-600", { underline: isActive })}
+		>
 			{children}
 		</Link>
 	);
