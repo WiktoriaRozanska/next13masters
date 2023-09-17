@@ -16,10 +16,18 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 				<nav>
 					<ul className="mt-2 flex justify-center space-x-4">
 						<li>
-							<ActiveLink href="/">Homepage</ActiveLink>
+							<ActiveLink href="/" className="text-blue-400 hover:text-blue-600" activeClassName="underline">
+								Home
+							</ActiveLink>
 						</li>
 						<li>
-							<ActiveLink href="/products">Products</ActiveLink>
+							<ActiveLink
+								href="/products"
+								className="text-blue-400 hover:text-blue-600"
+								activeClassName="underline"
+							>
+								All
+							</ActiveLink>
 						</li>
 					</ul>
 				</nav>

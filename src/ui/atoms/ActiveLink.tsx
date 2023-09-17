@@ -5,15 +5,28 @@ import clsx from "clsx";
 import { usePathname } from "next/navigation";
 import { type ReactNode } from "react";
 
-export const ActiveLink = ({ href, children }: { href: string; children: ReactNode }) => {
+type ActiveLinkProps<T> = {
+	href: T | string;
+	children: ReactNode;
+	className: string;
+	activeClassName: string;
+};
+
+export const ActiveLink = ({
+	href,
+	children,
+	className,
+	activeClassName,
+}: {
+	href: string;
+	children: ReactNode;
+	className: string;
+	activeClassName: string;
+}) => {
 	const pathname = usePathname();
 	const isActive = pathname === href;
 	return (
-		// <Link href={href} className={clsx("text-blue-400 hover:text-blue-600", isActive && `underline`)}>
-		<Link
-			href={{ pathname: href }}
-			className={clsx("text-blue-400 hover:text-blue-600", { underline: isActive })}
-		>
+		<Link href={{ pathname: href }} className={clsx(className, isActive && activeClassName)}>
 			{children}
 		</Link>
 	);
