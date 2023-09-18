@@ -1,9 +1,8 @@
 import { Suspense } from "react";
 import { type Metadata } from "next";
 import { getProductById, getProductsList } from "@/api/products";
-import { ProductCoverImage } from "@/ui/atoms/ProductCoverImage";
-import { ProductListItemDescription } from "@/ui/atoms/ProductListItemDescription";
 import { SuggestedProductList } from "@/ui/organisms/SuggestedProduct";
+import { Product } from "@/ui/molecules/Product";
 
 export const generateStaticParams = async () => {
 	const products = await getProductsList();
@@ -13,8 +12,13 @@ export const generateStaticParams = async () => {
 export const generateMetadata = async ({ params }: { params: { productId: string } }): Promise<Metadata> => {
 	const product = await getProductById(params.productId);
 	return {
-		title: `Produkt - ${product.name}`,
+		title: `${product.name} - Shop`,
 		description: product.description,
+		openGraph: {
+			title: `${product.name} - Shop`,
+			description: product.description,
+			images: [{ url: product.coverImage.src, alt: product.coverImage.alt }],
+		},
 	};
 };
 
@@ -22,11 +26,12 @@ export default async function SingleProductPage({ params }: { params: { productI
 	const product = await getProductById(params.productId);
 	return (
 		<>
-			<article className="max-w-xs">
-				<ProductCoverImage {...product.coverImage} />
-				<ProductListItemDescription product={product} />
+			<article className="mx-auto max-w-7xl p-8">
+				<Product product={product} />
 			</article>
 			<aside>
+				<br />
+				<p>Suggested items</p>
 				<Suspense fallback={"Ładowanie..."}>
 					<SuggestedProductList />
 				</Suspense>
