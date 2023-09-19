@@ -16,13 +16,19 @@ type Rating = {
 	count: number;
 };
 
-export const getProductsList = async () => {
-	const res = await fetch("https://naszsklep-api.vercel.app/api/products?take=20");
+export const getProductsList = async (take = 20, offset = 0) => {
+	const res = await fetch(`https://naszsklep-api.vercel.app/api/products?take=${take}&offset=${offset}`);
 	// const products = (await res.json()) as ProductItemType[]; // dokonujemy typowania danych
 	const productsResponse = (await res.json()) as ProductResponseItem[];
 	const products = productsResponse.map(productResponseItemToProductItemType);
 	// const products = productsResponse.map((product) => productResponseItemToProductItemType(product));
 	return products;
+};
+
+export const getNumberOfProducts = async () => {
+	const res = await fetch(`https://naszsklep-api.vercel.app/api/products`);
+	const productsResponse = (await res.json()) as ProductResponseItem[];
+	return productsResponse.length;
 };
 
 export const getProductById = async (id: ProductResponseItem["id"]) => {
