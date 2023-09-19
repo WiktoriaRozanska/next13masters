@@ -1,13 +1,13 @@
 import { Suspense } from "react";
 import { type Metadata } from "next";
-import { getProductById, getProductsList } from "@/api/products";
+import { getProductById } from "@/api/products";
 import { SuggestedProductList } from "@/ui/organisms/SuggestedProduct";
-import { Product } from "@/ui/molecules/Product";
+import { Product } from "@/ui/organisms/Product";
 
-export const generateStaticParams = async () => {
-	const products = await getProductsList();
-	return products.map((product) => ({ productId: product.id }));
-};
+// export const generateStaticParams = async () => {
+// 	const products = await getProductsList();
+// 	return products.map((product) => ({ productId: product.id }));
+// };
 
 export const generateMetadata = async ({ params }: { params: { productId: string } }): Promise<Metadata> => {
 	const product = await getProductById(params.productId);
