@@ -3,7 +3,7 @@ import { ActiveLink } from "@/ui/atoms/ActiveLink";
 
 export const Pagination = ({ pages }: { pages: number }) => {
 	return (
-		<div className="flex justify-center">
+		<div className="flex justify-center" aria-label="Pagination">
 			{[...Array(pages).keys()].map((page) => {
 				const pageNumber = page + 1;
 				return (
