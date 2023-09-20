@@ -60,10 +60,7 @@
 		"@typescript-eslint/return-await": ["error", "in-try-catch"],
 
 		// allow unused vars prefixed with `_`
-		"@typescript-eslint/no-unused-vars": [
-			"error",
-			{ "argsIgnorePattern": "^_", "varsIgnorePattern": "^_" }
-		],
+		"@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_", "varsIgnorePattern": "^_" }],
 
 		// numbers and booleans are fine in template strings
 		"@typescript-eslint/restrict-template-expressions": [
@@ -71,6 +68,13 @@
 			{ "allowNumber": true, "allowBoolean": true }
 		]
 	},
+	"no-restricted-imports": [
+		"error",
+		{
+			"name": "next/router",
+			"message": "Please use next/navigation instead."
+		}
+	],
 	"overrides": [
 		{
 			"files": ["src/app/**/*.ts?(x)"],
