@@ -3,6 +3,7 @@ import { TypedDocumentString } from "@/gql/graphql";
 export const executeGraphql = async <TResult, TVariables>(
 	query: TypedDocumentString<TResult, TVariables>,
 	variables: TVariables,
+	// ...variables: TVariables extends Record<string, never> ? [] : [TVariables]
 ): Promise<TResult> => {
 	if (!process.env.GRAPHQL_SCHEMA) {
 		throw TypeError("GRAPHQL_SCHEMA is not defined");

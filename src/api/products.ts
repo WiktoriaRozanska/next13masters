@@ -1,6 +1,11 @@
-import { ProductsGetByCategorySlugDocument, ProductsGetListDocument } from "@/gql/graphql";
+import {
+	ProductGetByIdDocument,
+	ProductsGetByCategorySlugDocument,
+	ProductsGetListDocument,
+} from "@/gql/graphql";
 import { type ProductItemType } from "@/ui/types";
 import { executeGraphql } from "@/api/graphqlApi";
+import { notFound } from "next/navigation";
 
 type ProductResponseItem = {
 	id: string;
@@ -47,6 +52,10 @@ export const getProductsByCategorySlug = async (categorySlug: string): Promise<P
 	const categories = await executeGraphql(ProductsGetByCategorySlugDocument, { slug: categorySlug });
 	const products = categories.categories[0]?.products;
 
+	if (!products) {
+		return [];
+	}
+
 	return products?.map((product) => {
 		return {
 			id: product.id,
@@ -62,17 +71,37 @@ export const getProductsByCategorySlug = async (categorySlug: string): Promise<P
 	});
 };
 
+export const getProductById = async (id: string): Promise<ProductItemType> => {
+	const res = await executeGraphql(ProductGetByIdDocument, { id: id });
+
+	if (!res.product) {
+		throw notFound();
+	}
+
+	return {
+		id: res.product.id,
+		name: res.product.name,
+		price: res.product.price,
+		description: res.product.description,
+		category: res.product.categories[0]?.name || "",
+		coverImage: {
+			src: res.product.images[0]?.url || "",
+			alt: res.product.name,
+		},
+	};
+};
+
 export const getNumberOfProducts = async () => {
 	const res = await fetch(`https://naszsklep-api.vercel.app/api/products`);
 	const productsResponse = (await res.json()) as ProductResponseItem[];
 	return productsResponse.length;
 };
 
-export const getProductById = async (id: ProductResponseItem["id"]) => {
-	const res = await fetch(`https://naszsklep-api.vercel.app/api/products/${id}`);
-	const productResponse = (await res.json()) as ProductResponseItem;
-	return productResponseItemToProductItemType(productResponse);
-};
+// export const getProductById = async (id: ProductResponseItem["id"]) => {
+// 	const res = await fetch(`https://naszsklep-api.vercel.app/api/products/${id}`);
+// 	const productResponse = (await res.json()) as ProductResponseItem;
+// 	return productResponseItemToProductItemType(productResponse);
+// };
 
 const productResponseItemToProductItemType = (product: ProductResponseItem): ProductItemType => {
 	return {
