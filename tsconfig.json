@@ -15,6 +15,7 @@
 		"isolatedModules": true,
 		"jsx": "preserve",
 		"incremental": true,
+		"noUncheckedIndexedAccess": true,
 		"plugins": [
 			{
 				"name": "next"
@@ -30,7 +31,8 @@
 		"**/*.tsx",
 		".next/types/**/*.ts",
 		"tailwind.config.ts",
-		"tailwind.config.ts"
+		"tailwind.config.ts",
+		".graphqlrc.ts"
 	],
 	"exclude": ["node_modules"]
 }

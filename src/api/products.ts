@@ -1,4 +1,6 @@
+import { ProductsGetByCategorySlugDocument, ProductsGetListDocument } from "@/gql/graphql";
 import { type ProductItemType } from "@/ui/types";
+import { executeGraphql } from "@/api/graphqlApi";
 
 type ProductResponseItem = {
 	id: string;
@@ -23,60 +25,37 @@ export const getProductsList = async (take = 20, offset = 0): Promise<ProductIte
 	// const products = productsResponse.map(productResponseItemToProductItemType);
 	// // const products = productsResponse.map((product) => productResponseItemToProductItemType(product));
 	// return products;
-	const res = await fetch(
-		"https://api-eu-central-1-shared-euc1-02.hygraph.com/v2/clihaom3j03ep01te1dg24yp5/master",
-		{
-			method: "POST",
-			body: JSON.stringify({
-				query: /* GraphQL */ `
-					query GetProductsList {
-						products(first: 10) {
-							id
-							name
-							description
-							images {
-								url
-							}
-							price
-						}
-					}
-				`,
-			}),
-			headers: { "Content-Type": "application/json" },
-		},
-	);
+	// ====================================================================================================
+	const graphqlResponse = await executeGraphql(ProductsGetListDocument, {});
 
-	type GraphQLResponse<T> =
-		| { data?: undefined; errors: { message: string }[] }
-		| { data: T; errors?: undefined };
-
-	type ProductsGraphqlResponse = {
-		products: {
-			id: string;
-			name: string;
-			description: string;
-			images: {
-				url: string;
-			}[];
-			price: number;
-		}[];
-	};
-
-	const graphqlResponse = (await res.json()) as GraphQLResponse<ProductsGraphqlResponse>;
-
-	if (graphqlResponse.errors) {
-		throw TypeError(graphqlResponse.errors[0].message);
-	}
-
-	return graphqlResponse.data.products.map((product) => {
+	return graphqlResponse.products.map((product) => {
 		return {
 			id: product.id,
-			category: "",
 			name: product.name,
 			price: product.price,
 			description: product.description,
+			category: product.categories[0]?.name || "",
 			coverImage: {
-				src: product.images[0].url,
+				src: product.images[0]?.url || "",
+				alt: product.name,
+			},
+		};
+	});
+};
+
+export const getProductsByCategorySlug = async (categorySlug: string): Promise<ProductItemType[]> => {
+	const categories = await executeGraphql(ProductsGetByCategorySlugDocument, { slug: categorySlug });
+	const products = categories.categories[0]?.products;
+
+	return products?.map((product) => {
+		return {
+			id: product.id,
+			name: product.name,
+			price: product.price,
+			description: product.description,
+			category: product.categories[0]?.name || "",
+			coverImage: {
+				src: product.images[0]?.url || "",
 				alt: product.name,
 			},
 		};

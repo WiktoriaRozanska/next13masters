@@ -11,7 +11,7 @@ export const Product = ({ product }: ProductListItemProps) => {
 	return (
 		<div className="flex flex-col justify-between gap-16 lg:flex-row lg:items-center">
 			<div className="flex flex-col gap-6 lg:w-2/4">
-				<ProductCoverImage {...product.coverImage} />
+				{product.coverImage && <ProductCoverImage {...product.coverImage} />}
 			</div>
 
 			{/* ABOUT */}

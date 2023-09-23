@@ -17,7 +17,7 @@ export const generateMetadata = async ({ params }: { params: { productId: string
 		openGraph: {
 			title: `${product.name} - Shop`,
 			description: product.description,
-			images: [{ url: product.coverImage.src, alt: product.coverImage.alt }],
+			images: [{ url: product?.coverImage?.src || "", alt: product?.coverImage?.alt || "" }],
 		},
 	};
 };
