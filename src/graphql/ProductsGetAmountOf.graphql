@@ -1,0 +1,7 @@
+query ProductsGetAmountOf {
+	productsConnection {
+		pageInfo {
+			pageSize
+		}
+	}
+}

@@ -3,12 +3,12 @@ import { ProductList } from "@/ui/organisms/ProductList";
 
 export const generateStaticParams = async () => {
 	const numberOfProducts = await getNumberOfProducts();
-	const numberOfPages = Math.ceil(numberOfProducts / 20);
+	const numberOfPages = Math.ceil(numberOfProducts / 8);
 	return [...Array(numberOfPages).keys()].map((page) => ({ pageNumber: (page + 1).toString() }));
 };
 
 export default async function PaginatedProductPage({ params }: { params: { pageNumber: number } }) {
-	const PER_PAGE = 20;
+	const PER_PAGE = 8;
 	const pagination = params.pageNumber - 1;
 	const products = await getProductsList(PER_PAGE, pagination * PER_PAGE);
 	return (

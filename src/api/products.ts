@@ -1,6 +1,7 @@
 import {
 	ProductGetByIdDocument,
 	ProductListItemFragment,
+	ProductsGetAmountOfDocument,
 	ProductsGetByCategorySlugDocument,
 	ProductsGetListDocument,
 } from "@/gql/graphql";
@@ -23,7 +24,7 @@ type Rating = {
 	count: number;
 };
 
-export const getProductsList = async (take = 20, offset = 0) => {
+export const getProductsList = async (take = 8, skip = 0) => {
 	// const res = await fetch(`https://naszsklep-api.vercel.app/api/products?take=${take}&offset=${offset}`);
 	// // const products = (await res.json()) as ProductItemType[]; // dokonujemy typowania danych
 	// const productsResponse = (await res.json()) as ProductResponseItem[];
@@ -31,13 +32,17 @@ export const getProductsList = async (take = 20, offset = 0) => {
 	// // const products = productsResponse.map((product) => productResponseItemToProductItemType(product));
 	// return products;
 	// ====================================================================================================
-	const graphqlResponse = await executeGraphql(ProductsGetListDocument, {});
+	const graphqlResponse = await executeGraphql(ProductsGetListDocument, { take: take, skip: skip });
 
 	return graphqlResponse.products;
 };
 
-export const getProductsByCategorySlug = async (categorySlug: string) => {
-	const categories = await executeGraphql(ProductsGetByCategorySlugDocument, { slug: categorySlug });
+export const getProductsByCategorySlug = async (categorySlug: string, take = 8, skip = 0) => {
+	const categories = await executeGraphql(ProductsGetByCategorySlugDocument, {
+		slug: categorySlug,
+		take: take,
+		skip: skip,
+	});
 	const products = categories.categories[0]?.products;
 
 	if (!products) {
@@ -58,7 +63,10 @@ export const getProductById = async (id: ProductListItemFragment["id"]) => {
 };
 
 export const getNumberOfProducts = async () => {
-	const res = await fetch(`https://naszsklep-api.vercel.app/api/products`);
-	const productsResponse = (await res.json()) as ProductResponseItem[];
-	return productsResponse.length;
+	const res = await executeGraphql(ProductsGetAmountOfDocument, {});
+	if (!res.productsConnection) {
+		throw notFound();
+	}
+
+	return res.productsConnection.pageInfo.pageSize || 0;
 };

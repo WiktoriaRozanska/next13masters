@@ -10724,14 +10724,24 @@ export type ProductGetByIdQuery = { product?: { id: string, name: string, price:
 
 export type ProductListItemFragment = { id: string, name: string, price: number, description: string, categories: Array<{ name: string }>, images: Array<{ url: string }> };
 
+export type ProductsGetAmountOfQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type ProductsGetAmountOfQuery = { productsConnection: { pageInfo: { pageSize?: number | null } } };
+
 export type ProductsGetByCategorySlugQueryVariables = Exact<{
   slug: Scalars['String']['input'];
+  take: Scalars['Int']['input'];
+  skip: Scalars['Int']['input'];
 }>;
 
 
 export type ProductsGetByCategorySlugQuery = { categories: Array<{ products: Array<{ id: string, name: string, price: number, description: string, categories: Array<{ name: string }>, images: Array<{ url: string }> }> }> };
 
-export type ProductsGetListQueryVariables = Exact<{ [key: string]: never; }>;
+export type ProductsGetListQueryVariables = Exact<{
+  take: Scalars['Int']['input'];
+  skip: Scalars['Int']['input'];
+}>;
 
 
 export type ProductsGetListQuery = { products: Array<{ id: string, name: string, price: number, description: string, categories: Array<{ name: string }>, images: Array<{ url: string }> }> };
@@ -10782,10 +10792,19 @@ export const ProductGetByIdDocument = new TypedDocumentString(`
     url
   }
 }`) as unknown as TypedDocumentString<ProductGetByIdQuery, ProductGetByIdQueryVariables>;
+export const ProductsGetAmountOfDocument = new TypedDocumentString(`
+    query ProductsGetAmountOf {
+  productsConnection {
+    pageInfo {
+      pageSize
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<ProductsGetAmountOfQuery, ProductsGetAmountOfQueryVariables>;
 export const ProductsGetByCategorySlugDocument = new TypedDocumentString(`
-    query ProductsGetByCategorySlug($slug: String!) {
+    query ProductsGetByCategorySlug($slug: String!, $take: Int!, $skip: Int!) {
   categories(where: {slug: $slug}) {
-    products {
+    products(first: $take, skip: $skip) {
       ...ProductListItem
     }
   }
@@ -10803,8 +10822,8 @@ export const ProductsGetByCategorySlugDocument = new TypedDocumentString(`
   }
 }`) as unknown as TypedDocumentString<ProductsGetByCategorySlugQuery, ProductsGetByCategorySlugQueryVariables>;
 export const ProductsGetListDocument = new TypedDocumentString(`
-    query ProductsGetList {
-  products(first: 10) {
+    query ProductsGetList($take: Int!, $skip: Int!) {
+  products(first: $take, skip: $skip) {
     ...ProductListItem
   }
 }
