@@ -1,17 +1,17 @@
+import { ProductListItemFragment } from "@/gql/graphql";
 import { ProductCounter } from "@/ui/atoms/ProductCounter";
-import { type ProductItemType } from "@/ui/types";
 import { ProductCoverImage } from "@/ui/atoms/ProductCoverImage";
 import { formatMoney } from "@/utils";
 
 type ProductListItemProps = {
-	product: ProductItemType;
+	product: ProductListItemFragment;
 };
 
 export const Product = ({ product }: ProductListItemProps) => {
 	return (
 		<div className="flex flex-col justify-between gap-16 lg:flex-row lg:items-center">
 			<div className="flex flex-col gap-6 lg:w-2/4">
-				{product.coverImage && <ProductCoverImage {...product.coverImage} />}
+				{product.images[0] && <ProductCoverImage src={product.images[0].url} alt="" />}
 			</div>
 
 			{/* ABOUT */}
