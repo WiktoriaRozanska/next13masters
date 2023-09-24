@@ -3,6 +3,7 @@ import {
 	ProductListItemFragment,
 	ProductsGetAmountOfDocument,
 	ProductsGetByCategorySlugDocument,
+	ProductsGetByCollectionSlugDocument,
 	ProductsGetListDocument,
 } from "@/gql/graphql";
 import { executeGraphql } from "@/api/graphqlApi";
@@ -44,6 +45,19 @@ export const getProductsByCategorySlug = async (categorySlug: string, take = 8, 
 		skip: skip,
 	});
 	const products = categories.categories[0]?.products;
+
+	if (!products) {
+		return [];
+	}
+
+	return products;
+};
+
+export const getProductsByCollectionSlug = async (collectionSlug: string) => {
+	const collection = await executeGraphql(ProductsGetByCollectionSlugDocument, {
+		slug: collectionSlug,
+	});
+	const products = collection.collections[0]?.products;
 
 	if (!products) {
 		return [];

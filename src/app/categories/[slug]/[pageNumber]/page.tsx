@@ -1,7 +1,7 @@
 import { getProductsByCategorySlug } from "@/api/products";
 import { ProductList } from "@/ui/organisms/ProductList";
 
-export default async function CategoryPageOnPage({
+export default async function CategoryProductsOnPage({
 	params,
 }: {
 	params: { slug: string; pageNumber: number };

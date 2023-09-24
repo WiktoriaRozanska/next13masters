@@ -1,0 +1,5 @@
+query CollectionsGetList {
+	collections {
+		...CollectionListItem
+	}
+}
