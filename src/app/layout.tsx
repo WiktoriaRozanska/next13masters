@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { ActiveLink } from "@/ui/atoms/ActiveLink";
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ subsets: ["latin", "latin-ext"] });
 
 export const metadata: Metadata = {
 	title: "Products",
@@ -26,7 +26,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 							</ActiveLink>
 						</li>
 						<li>
-							<ActiveLink href="/products/categories/t-shirts">T-Shirts</ActiveLink>
+							<ActiveLink href="/products">T-Shirts</ActiveLink>
 						</li>
 					</ul>
 				</nav>

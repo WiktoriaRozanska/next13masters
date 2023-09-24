@@ -1,4 +1,4 @@
-import { ProductListItemFragment } from "@/gql/graphql";
+import { ProductListItemFragment, ProductListItemFragmentDoc } from "@/gql/graphql";
 import { ProductCounter } from "@/ui/atoms/ProductCounter";
 import { ProductCoverImage } from "@/ui/atoms/ProductCoverImage";
 import { formatMoney } from "@/utils";
