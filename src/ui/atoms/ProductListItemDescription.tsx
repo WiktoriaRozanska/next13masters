@@ -1,13 +1,22 @@
 import { formatMoney } from "@/utils";
-import { ProductListItemFragment } from "@/gql/graphql";
+import { type FragmentType, getFragmentData, graphql } from "@/gql";
+
+const ProductListItemDescription_Product = graphql(/* GraphQL */ `
+	fragment ProductListItemDescription_Product on Product {
+		name
+		categories(first: 1) {
+			name
+		}
+		price
+	}
+`);
 
 type ProductListItemDescriptionProps = {
-	product: ProductListItemFragment;
+	product: FragmentType<typeof ProductListItemDescription_Product>;
 };
 
-export const ProductListItemDescription = ({
-	product: { categories, name, price },
-}: ProductListItemDescriptionProps) => {
+export const ProductListItemDescription = (props: ProductListItemDescriptionProps) => {
+	const { name, categories, price } = getFragmentData(ProductListItemDescription_Product, props.product);
 	return (
 		<div className="mt-2 flex justify-between">
 			<div>
