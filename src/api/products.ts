@@ -62,9 +62,3 @@ export const getNumberOfProducts = async () => {
 	const productsResponse = (await res.json()) as ProductResponseItem[];
 	return productsResponse.length;
 };
-
-// export const getProductById = async (id: ProductResponseItem["id"]) => {
-// 	const res = await fetch(`https://naszsklep-api.vercel.app/api/products/${id}`);
-// 	const productResponse = (await res.json()) as ProductResponseItem;
-// 	return productResponseItemToProductItemType(productResponse);
-// };
