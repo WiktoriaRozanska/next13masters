@@ -3,7 +3,7 @@ const withMDX = require("@next/mdx")();
 const nextConfig = {
 	pageExtensions: ["ts", "tsx", "mdx"],
 	experimental: {
-		typedRoutes: true,
+		// typedRoutes: true,
 		mdxRs: true,
 	},
 	images: {

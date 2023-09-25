@@ -11,7 +11,7 @@ export const ProductCounter = () => {
 			>
 				-
 			</button>
-			<input readOnly value={counter} className="rounded-lg px-5 py-2 text-slate-900" />
+			<input readOnly value={counter} className="rounded-lg border-slate-800 px-5 py-2 text-slate-900" />
 			<button
 				className="rounded-lg bg-gray-200 px-5 py-2 text-xl text-teal-700"
 				onClick={() => setCounter((counter) => counter + 1)}

@@ -1,4 +1,4 @@
-fragment ProductListItem on Product {
+fragment ProductItem on Product {
 	id
 	name
 	categories(first: 1) {
