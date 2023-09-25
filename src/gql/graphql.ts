@@ -10745,7 +10745,7 @@ export type ProductsGetByCategorySlugQueryVariables = Exact<{
 }>;
 
 
-export type ProductsGetByCategorySlugQuery = { categories: Array<{ products: Array<{ id: string, name: string, price: number, description: string, categories: Array<{ name: string }>, images: Array<{ url: string }>, variants: Array<{ __typename: 'ProductColorVariant', id: string, name: string, color: ProductColor } | { __typename: 'ProductSizeColorVariant', id: string, name: string, color: ProductColor } | { __typename: 'ProductSizeVariant', id: string, name: string }> }> }> };
+export type ProductsGetByCategorySlugQuery = { categories: Array<{ name: string, products: Array<{ id: string, name: string, price: number, description: string, categories: Array<{ name: string }>, images: Array<{ url: string }>, variants: Array<{ __typename: 'ProductColorVariant', id: string, name: string, color: ProductColor } | { __typename: 'ProductSizeColorVariant', id: string, name: string, color: ProductColor } | { __typename: 'ProductSizeVariant', id: string, name: string }> }> }> };
 
 export type ProductsGetByCollectionSlugQueryVariables = Exact<{
   slug: Scalars['String']['input'];
@@ -10911,6 +10911,7 @@ export const ProductsGetAmountOfDocument = new TypedDocumentString(`
 export const ProductsGetByCategorySlugDocument = new TypedDocumentString(`
     query ProductsGetByCategorySlug($slug: String!, $take: Int!, $skip: Int!) {
   categories(where: {slug: $slug}) {
+    name
     products(first: $take, skip: $skip) {
       ...ProductListItem
     }

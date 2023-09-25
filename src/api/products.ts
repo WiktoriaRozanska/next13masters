@@ -44,13 +44,13 @@ export const getProductsByCategorySlug = async (categorySlug: string, take = 8, 
 		take: take,
 		skip: skip,
 	});
-	const products = categories.categories[0]?.products;
+	const category = categories.categories[0];
 
-	if (!products) {
-		return [];
+	if (!category) {
+		return { name: "Wrong Category", products: [] };
 	}
 
-	return products;
+	return category;
 };
 
 export const getProductsByCollectionSlug = async (collectionSlug: string) => {
