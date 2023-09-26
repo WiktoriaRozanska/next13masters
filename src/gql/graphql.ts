@@ -10785,6 +10785,13 @@ export type ProductsGetListQueryVariables = Exact<{
 
 export type ProductsGetListQuery = { products: Array<{ id: string, name: string, price: number, description: string, categories: Array<{ name: string }>, images: Array<{ url: string }>, variants: Array<{ __typename: 'ProductColorVariant', id: string, name: string, color: ProductColor } | { __typename: 'ProductSizeColorVariant', id: string, name: string, color: ProductColor } | { __typename: 'ProductSizeVariant', id: string, name: string }> }> };
 
+export type ProductsListByProvidedValueQueryVariables = Exact<{
+  searchString: Scalars['String']['input'];
+}>;
+
+
+export type ProductsListByProvidedValueQuery = { products: Array<{ id: string, name: string, price: number, description: string, categories: Array<{ name: string }>, images: Array<{ url: string }>, variants: Array<{ __typename: 'ProductColorVariant', id: string, name: string, color: ProductColor } | { __typename: 'ProductSizeColorVariant', id: string, name: string, color: ProductColor } | { __typename: 'ProductSizeVariant', id: string, name: string }> }> };
+
 export class TypedDocumentString<TResult, TVariables>
   extends String
   implements DocumentTypeDecoration<TResult, TVariables>
@@ -11086,3 +11093,38 @@ export const ProductsGetListDocument = new TypedDocumentString(`
     }
   }
 }`) as unknown as TypedDocumentString<ProductsGetListQuery, ProductsGetListQueryVariables>;
+export const ProductsListByProvidedValueDocument = new TypedDocumentString(`
+    query ProductsListByProvidedValue($searchString: String!) {
+  products(where: {_search: $searchString}) {
+    ...ProductListItem
+  }
+}
+    fragment ProductListItem on Product {
+  id
+  name
+  categories(first: 1) {
+    name
+  }
+  price
+  description
+  images(first: 1) {
+    url
+  }
+  variants {
+    __typename
+    ... on ProductSizeColorVariant {
+      id
+      name
+      color
+    }
+    ... on ProductColorVariant {
+      id
+      name
+      color
+    }
+    ... on ProductSizeVariant {
+      id
+      name
+    }
+  }
+}`) as unknown as TypedDocumentString<ProductsListByProvidedValueQuery, ProductsListByProvidedValueQueryVariables>;
