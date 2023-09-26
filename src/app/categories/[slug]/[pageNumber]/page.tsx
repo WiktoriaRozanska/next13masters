@@ -1,6 +1,22 @@
+import { executeGraphql } from "@/api/graphqlApi";
 import { getNumberOfProductsInCategory, getProductsByCategorySlug } from "@/api/products";
+import { CategoryGetBySlugDocument, CategoryItemFragment } from "@/gql/graphql";
 import { Pagination } from "@/ui/molecules/Pagination";
 import { ProductList } from "@/ui/organisms/ProductList";
+import { Metadata } from "next";
+
+export const generateMetadata = async ({
+	params,
+}: {
+	params: { slug: string; pageNumber: number };
+}): Promise<Metadata> => {
+	const res = await executeGraphql(CategoryGetBySlugDocument, { slug: params.slug });
+	const category = res.categories as CategoryItemFragment[];
+	return {
+		title: category[0]?.name || "Undefined category",
+		description: category[0]?.description || "",
+	};
+};
 
 export default async function CategoryProductsOnPage({
 	params,
