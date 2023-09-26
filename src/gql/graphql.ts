@@ -10777,6 +10777,13 @@ export type ProductsGetByCollectionSlugQueryVariables = Exact<{
 
 export type ProductsGetByCollectionSlugQuery = { collections: Array<{ products: Array<{ id: string, name: string, price: number, description: string, categories: Array<{ name: string }>, images: Array<{ url: string }>, variants: Array<{ __typename: 'ProductColorVariant', id: string, name: string, color: ProductColor } | { __typename: 'ProductSizeColorVariant', id: string, name: string, color: ProductColor } | { __typename: 'ProductSizeVariant', id: string, name: string }> }> }> };
 
+export type ProductsGetByProvidedValueQueryVariables = Exact<{
+  searchString: Scalars['String']['input'];
+}>;
+
+
+export type ProductsGetByProvidedValueQuery = { products: Array<{ id: string, name: string, price: number, description: string, categories: Array<{ name: string }>, images: Array<{ url: string }>, variants: Array<{ __typename: 'ProductColorVariant', id: string, name: string, color: ProductColor } | { __typename: 'ProductSizeColorVariant', id: string, name: string, color: ProductColor } | { __typename: 'ProductSizeVariant', id: string, name: string }> }> };
+
 export type ProductsGetListQueryVariables = Exact<{
   take: Scalars['Int']['input'];
   skip: Scalars['Int']['input'];
@@ -11051,6 +11058,41 @@ export const ProductsGetByCollectionSlugDocument = new TypedDocumentString(`
     }
   }
 }`) as unknown as TypedDocumentString<ProductsGetByCollectionSlugQuery, ProductsGetByCollectionSlugQueryVariables>;
+export const ProductsGetByProvidedValueDocument = new TypedDocumentString(`
+    query ProductsGetByProvidedValue($searchString: String!) {
+  products(where: {_search: $searchString}) {
+    ...ProductListItem
+  }
+}
+    fragment ProductListItem on Product {
+  id
+  name
+  categories(first: 1) {
+    name
+  }
+  price
+  description
+  images(first: 1) {
+    url
+  }
+  variants {
+    __typename
+    ... on ProductSizeColorVariant {
+      id
+      name
+      color
+    }
+    ... on ProductColorVariant {
+      id
+      name
+      color
+    }
+    ... on ProductSizeVariant {
+      id
+      name
+    }
+  }
+}`) as unknown as TypedDocumentString<ProductsGetByProvidedValueQuery, ProductsGetByProvidedValueQueryVariables>;
 export const ProductsGetListDocument = new TypedDocumentString(`
     query ProductsGetList($take: Int!, $skip: Int!) {
   products(first: $take, skip: $skip) {

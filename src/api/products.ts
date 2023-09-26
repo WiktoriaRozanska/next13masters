@@ -5,6 +5,7 @@ import {
 	ProductsGetAmountOfInCategoryDocument,
 	ProductsGetByCategorySlugDocument,
 	ProductsGetByCollectionSlugDocument,
+	ProductsGetByProvidedValueDocument,
 	ProductsGetListDocument,
 } from "@/gql/graphql";
 import { executeGraphql } from "@/api/graphqlApi";
@@ -52,6 +53,19 @@ export const getProductsByCollectionSlug = async (collectionSlug: string) => {
 		slug: collectionSlug,
 	});
 	const products = collection.collections[0]?.products;
+
+	if (!products) {
+		return [];
+	}
+
+	return products;
+};
+
+export const getProductsByProvidedValue = async (searchvalue: string) => {
+	const result = await executeGraphql(ProductsGetByProvidedValueDocument, {
+		searchString: searchvalue,
+	});
+	const products = result.products;
 
 	if (!products) {
 		return [];

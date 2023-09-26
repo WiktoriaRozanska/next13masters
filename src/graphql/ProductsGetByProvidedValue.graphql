@@ -1,0 +1,5 @@
+query ProductsGetByProvidedValue($searchString: String!) {
+	products(where: { _search: $searchString }) {
+		...ProductListItem
+	}
+}

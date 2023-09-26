@@ -5,11 +5,12 @@ export const executeGraphql = async <TResult, TVariables>(
 	variables: TVariables,
 	// ...variables: TVariables extends Record<string, never> ? [] : [TVariables]
 ): Promise<TResult> => {
-	if (!process.env.GRAPHQL_SCHEMA) {
+	const schemaUrl = process.env.GRAPHQL_SCHEMA || process.env.NEXT_PUBLIC_GRAPHQL_SCHEMA;
+	if (!schemaUrl) {
 		throw TypeError("GRAPHQL_SCHEMA is not defined");
 	}
 
-	const res = await fetch(process.env.GRAPHQL_SCHEMA as string, {
+	const res = await fetch(schemaUrl as string, {
 		method: "POST",
 		body: JSON.stringify({
 			query,
