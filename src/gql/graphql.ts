@@ -10738,6 +10738,13 @@ export type ProductsGetAmountOfQueryVariables = Exact<{ [key: string]: never; }>
 
 export type ProductsGetAmountOfQuery = { productsConnection: { pageInfo: { pageSize?: number | null } } };
 
+export type ProductsGetAmountOfInCategoryQueryVariables = Exact<{
+  slug: Scalars['String']['input'];
+}>;
+
+
+export type ProductsGetAmountOfInCategoryQuery = { productsConnection: { pageInfo: { pageSize?: number | null } } };
+
 export type ProductsGetByCategorySlugQueryVariables = Exact<{
   slug: Scalars['String']['input'];
   take: Scalars['Int']['input'];
@@ -10908,6 +10915,15 @@ export const ProductsGetAmountOfDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<ProductsGetAmountOfQuery, ProductsGetAmountOfQueryVariables>;
+export const ProductsGetAmountOfInCategoryDocument = new TypedDocumentString(`
+    query ProductsGetAmountOfInCategory($slug: String!) {
+  productsConnection(where: {categories_some: {slug: $slug}}) {
+    pageInfo {
+      pageSize
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<ProductsGetAmountOfInCategoryQuery, ProductsGetAmountOfInCategoryQueryVariables>;
 export const ProductsGetByCategorySlugDocument = new TypedDocumentString(`
     query ProductsGetByCategorySlug($slug: String!, $take: Int!, $skip: Int!) {
   categories(where: {slug: $slug}) {

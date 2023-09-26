@@ -2,6 +2,7 @@ import {
 	ProductGetByIdDocument,
 	ProductListItemFragment,
 	ProductsGetAmountOfDocument,
+	ProductsGetAmountOfInCategoryDocument,
 	ProductsGetByCategorySlugDocument,
 	ProductsGetByCollectionSlugDocument,
 	ProductsGetListDocument,
@@ -51,6 +52,15 @@ export const getProductsByCategorySlug = async (categorySlug: string, take = 8, 
 	}
 
 	return category;
+};
+
+export const getNumberOfProductsInCategory = async (categorySlug: string) => {
+	const res = await executeGraphql(ProductsGetAmountOfInCategoryDocument, { slug: categorySlug });
+	if (!res.productsConnection) {
+		throw notFound();
+	}
+
+	return res.productsConnection.pageInfo.pageSize || 0;
 };
 
 export const getProductsByCollectionSlug = async (collectionSlug: string) => {

@@ -1,0 +1,7 @@
+query ProductsGetAmountOfInCategory($slug: String!) {
+	productsConnection(where: { categories_some: { slug: $slug } }) {
+		pageInfo {
+			pageSize
+		}
+	}
+}

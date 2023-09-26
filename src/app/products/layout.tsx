@@ -8,7 +8,7 @@ export default async function ProductsPage({ children }: { children: React.React
 		<>
 			{children}
 			<section>
-				<Pagination pages={Math.ceil(numberOfProducts / PER_PAGE)}></Pagination>
+				<Pagination pages={Math.ceil(numberOfProducts / PER_PAGE)} basePath="products"></Pagination>
 			</section>
 		</>
 	);
