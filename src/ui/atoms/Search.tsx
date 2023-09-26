@@ -15,7 +15,9 @@ export const Search = (props: SearchProps) => {
 	};
 
 	useEffect(() => {
-		if (value !== "") {
+		const params = new URLSearchParams(window.location.search);
+		const queryParam = params.get("query");
+		if (value !== "" && queryParam == value) {
 			const debouncedSearch = debounce(onSearch, 500);
 			debouncedSearch(value);
 			return () => {
