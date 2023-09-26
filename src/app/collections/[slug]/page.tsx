@@ -15,10 +15,11 @@ export const generateMetadata = async ({ params }: { params: { slug: string } })
 
 export default async function CollectionProducts({ params }: { params: { slug: string } }) {
 	const products = await getProductsByCollectionSlug(params.slug);
-
+	const res = await executeGraphql(CollectionGetBySlugDocument, { slug: params.slug });
+	const collections = res.collections as CollectionListItemFragment[];
 	return (
 		<>
-			<p>Collection</p>
+			<h1>{collections[0]?.name || "Collection"}</h1>
 			<section className="mx-auto max-w-md p-12 sm:max-w-2xl sm:py-16 md:max-w-4xl lg:max-w-7xl">
 				<ProductList products={products} />
 			</section>
