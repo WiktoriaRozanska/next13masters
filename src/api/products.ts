@@ -10,22 +10,6 @@ import {
 import { executeGraphql } from "@/api/graphqlApi";
 import { notFound } from "next/navigation";
 
-type ProductResponseItem = {
-	id: string;
-	title: string;
-	price: number;
-	description: string;
-	category: string;
-	rating: Rating;
-	image: string;
-	longDescription: string;
-};
-
-type Rating = {
-	rate: number;
-	count: number;
-};
-
 export const getProductsList = async (take = 8, skip = 0) => {
 	// const res = await fetch(`https://naszsklep-api.vercel.app/api/products?take=${take}&offset=${offset}`);
 	// // const products = (await res.json()) as ProductItemType[]; // dokonujemy typowania danych

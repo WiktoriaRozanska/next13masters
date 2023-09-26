@@ -12,7 +12,7 @@ import { Product } from "@/ui/organisms/Product";
 export const generateMetadata = async ({ params }: { params: { productId: string } }): Promise<Metadata> => {
 	const product = await getProductById(params.productId);
 	return {
-		title: `${product.name} - Shop`,
+		title: `${product.name}`,
 		description: product.description,
 		openGraph: {
 			title: `${product.name} - Shop`,

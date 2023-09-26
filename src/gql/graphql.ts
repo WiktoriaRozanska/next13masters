@@ -10715,12 +10715,19 @@ export type _SystemDateTimeFieldVariation =
   | 'combined'
   | 'localization';
 
-export type CollectionListItemFragment = { id: string, name: string, slug: string, image: { id: string, url: string } };
+export type CollectionGetBySlugQueryVariables = Exact<{
+  slug: Scalars['String']['input'];
+}>;
+
+
+export type CollectionGetBySlugQuery = { collections: Array<{ id: string, name: string, description?: string | null, slug: string, image: { id: string, url: string } }> };
+
+export type CollectionListItemFragment = { id: string, name: string, description?: string | null, slug: string, image: { id: string, url: string } };
 
 export type CollectionsGetListQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type CollectionsGetListQuery = { collections: Array<{ id: string, name: string, slug: string, image: { id: string, url: string } }> };
+export type CollectionsGetListQuery = { collections: Array<{ id: string, name: string, description?: string | null, slug: string, image: { id: string, url: string } }> };
 
 export type ProductGetByIdQueryVariables = Exact<{
   id: Scalars['ID']['input'];
@@ -10787,6 +10794,7 @@ export const CollectionListItemFragmentDoc = new TypedDocumentString(`
     fragment CollectionListItem on Collection {
   id
   name
+  description
   slug
   image {
     id
@@ -10856,6 +10864,22 @@ export const ProductListItemFragmentDoc = new TypedDocumentString(`
   }
 }
     `, {"fragmentName":"ProductListItem"}) as unknown as TypedDocumentString<ProductListItemFragment, unknown>;
+export const CollectionGetBySlugDocument = new TypedDocumentString(`
+    query CollectionGetBySlug($slug: String!) {
+  collections(where: {slug: $slug}) {
+    ...CollectionListItem
+  }
+}
+    fragment CollectionListItem on Collection {
+  id
+  name
+  description
+  slug
+  image {
+    id
+    url
+  }
+}`) as unknown as TypedDocumentString<CollectionGetBySlugQuery, CollectionGetBySlugQueryVariables>;
 export const CollectionsGetListDocument = new TypedDocumentString(`
     query CollectionsGetList {
   collections {
@@ -10865,6 +10889,7 @@ export const CollectionsGetListDocument = new TypedDocumentString(`
     fragment CollectionListItem on Collection {
   id
   name
+  description
   slug
   image {
     id

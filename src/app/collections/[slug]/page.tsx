@@ -1,10 +1,21 @@
+import { executeGraphql } from "@/api/graphqlApi";
 import { getProductsByCollectionSlug } from "@/api/products";
+import { CollectionGetBySlugDocument, CollectionListItemFragment } from "@/gql/graphql";
 import { ProductList } from "@/ui/organisms/ProductList";
+import { Metadata } from "next";
+
+export const generateMetadata = async ({ params }: { params: { slug: string } }): Promise<Metadata> => {
+	const res = await executeGraphql(CollectionGetBySlugDocument, { slug: params.slug });
+	const collections = res.collections as CollectionListItemFragment[];
+	return {
+		title: collections[0]?.name || "Undefined collection",
+		description: collections[0]?.description || "",
+	};
+};
 
 export default async function CollectionProducts({ params }: { params: { slug: string } }) {
 	const products = await getProductsByCollectionSlug(params.slug);
-	console.log("====================================");
-	console.log(products);
+
 	return (
 		<>
 			<p>Collection</p>

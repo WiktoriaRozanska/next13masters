@@ -1,6 +1,7 @@
 fragment CollectionListItem on Collection {
 	id
 	name
+	description
 	slug
 	image {
 		id
