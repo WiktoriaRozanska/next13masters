@@ -1,5 +1,6 @@
 import React, { ChangeEvent, useState, useEffect } from "react";
 import debounce from "lodash.debounce";
+import { usePathname } from "next/navigation";
 
 export type SearchProps = {
 	onSearch: (value: string) => void;
@@ -8,6 +9,8 @@ export type SearchProps = {
 export const Search = (props: SearchProps) => {
 	const { onSearch } = props;
 	const [value, setValue] = useState("");
+	const [isFocused, setIsFocused] = useState(false);
+
 	const debouncedSearch = debounce(onSearch, 500);
 
 	const searchHandler = (event: ChangeEvent<HTMLInputElement>) => {
@@ -16,13 +19,13 @@ export const Search = (props: SearchProps) => {
 	};
 
 	useEffect(() => {
-		if (value !== "") {
+		if (value !== "" && isFocused) {
 			debouncedSearch(value);
 			return () => {
 				debouncedSearch.cancel();
 			};
 		}
-	}, [value, onSearch]);
+	}, [value, onSearch, isFocused]);
 
 	const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
 		if (event.key === "Enter") {
@@ -36,11 +39,6 @@ export const Search = (props: SearchProps) => {
 		onSearch(value);
 	};
 
-	const handleBlur = (event: React.FocusEvent<HTMLInputElement>) => {
-		debouncedSearch.cancel();
-		console.log("blur");
-	};
-
 	return (
 		<form onSubmit={handleSubmit}>
 			<div className="relative w-full text-gray-600">
@@ -52,8 +50,9 @@ export const Search = (props: SearchProps) => {
 					value={value}
 					onChange={searchHandler}
 					onKeyDown={handleKeyDown}
-					onBlur={handleBlur}
 					role="searchbox"
+					onBlur={() => setIsFocused(false)}
+					onFocus={() => setIsFocused(true)}
 				/>
 			</div>
 		</form>
