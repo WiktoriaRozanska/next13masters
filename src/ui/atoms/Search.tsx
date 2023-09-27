@@ -1,6 +1,5 @@
 import React, { ChangeEvent, useState, useEffect } from "react";
 import debounce from "lodash.debounce";
-import { usePathname } from "next/navigation";
 
 export type SearchProps = {
 	onSearch: (value: string) => void;
