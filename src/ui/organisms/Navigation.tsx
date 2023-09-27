@@ -2,16 +2,13 @@
 
 import { ActiveLink } from "@/ui/atoms/ActiveLink";
 import { Search } from "@/ui/atoms/Search";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 export default function Navigation() {
 	const router = useRouter();
 	const pathname = usePathname();
-	const searchParams = useSearchParams();
 
 	const handleSearch = (value: string) => {
-		// Here, you can access the search value when Enter is pressed
-		console.log(pathname);
 		router.push(`/search?query=${value}`);
 	};
 	return (

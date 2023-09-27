@@ -8,6 +8,7 @@ export type SearchProps = {
 export const Search = (props: SearchProps) => {
 	const { onSearch } = props;
 	const [value, setValue] = useState("");
+	const debouncedSearch = debounce(onSearch, 500);
 
 	const searchHandler = (event: ChangeEvent<HTMLInputElement>) => {
 		const { target } = event;
@@ -16,7 +17,6 @@ export const Search = (props: SearchProps) => {
 
 	useEffect(() => {
 		if (value !== "") {
-			const debouncedSearch = debounce(onSearch, 500);
 			debouncedSearch(value);
 			return () => {
 				debouncedSearch.cancel();
@@ -36,6 +36,11 @@ export const Search = (props: SearchProps) => {
 		onSearch(value);
 	};
 
+	const handleBlur = (event: React.FocusEvent<HTMLInputElement>) => {
+		debouncedSearch.cancel();
+		console.log("blur");
+	};
+
 	return (
 		<form onSubmit={handleSubmit}>
 			<div className="relative w-full text-gray-600">
@@ -47,6 +52,7 @@ export const Search = (props: SearchProps) => {
 					value={value}
 					onChange={searchHandler}
 					onKeyDown={handleKeyDown}
+					onBlur={handleBlur}
 					role="searchbox"
 				/>
 			</div>
