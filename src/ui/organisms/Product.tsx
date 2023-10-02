@@ -1,18 +1,11 @@
-import {
-	CartAddProductDocument,
-	CartCreateDocument,
-	CartFragment,
-	CartGetByIdDocument,
-	ProductGetByIdDocument,
-	ProductItemFragment,
-} from "@/gql/graphql";
+import { ProductItemFragment } from "@/gql/graphql";
 import { ProductCounter } from "@/ui/atoms/ProductCounter";
 import { ProductCoverImage } from "@/ui/atoms/ProductCoverImage";
 import { formatMoney } from "@/utils";
 import { VariantSelector } from "../atoms/VariantSelector";
 import { cookies } from "next/headers";
-import { executeGraphql } from "@/api/graphqlApi";
 import { AddToCartButton } from "../atoms/AddToCartButton";
+import { getOrCreateCart, addToCart } from "@/api/cart";
 
 type ProductItemProps = {
 	product: ProductItemFragment;
@@ -55,35 +48,3 @@ export const Product = ({ product }: ProductItemProps) => {
 		</div>
 	);
 };
-
-async function getOrCreateCart(): Promise<CartFragment> {
-	const cartId = cookies().get("cartId")?.value;
-	if (cartId) {
-		const cart = await getCartById(cartId);
-		if (cart.orders[0]) {
-			return cart.orders[0];
-		}
-	}
-
-	const cart = await createCart();
-	if (!cart.createOrder) {
-		throw new Error("Cannot create cart");
-	}
-	return cart.createOrder;
-}
-
-async function getCartById(cartId: string) {
-	return executeGraphql(CartGetByIdDocument, { id: cartId });
-}
-
-function createCart() {
-	return executeGraphql(CartCreateDocument, {});
-}
-
-async function addToCart(orderId: string, productId: string) {
-	const { product } = await executeGraphql(ProductGetByIdDocument, { id: productId });
-	if (!product) {
-		throw new Error("Product not found");
-	}
-	await executeGraphql(CartAddProductDocument, { orderId, productId, total: product.price });
-}
