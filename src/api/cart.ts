@@ -18,6 +18,7 @@ export async function getOrCreateCart(): Promise<CartFragment> {
 	if (!cart.createOrder) {
 		throw new Error("Cannot create cart");
 	}
+	cookies().set("cartId", cart.createOrder.id);
 	return cart.createOrder;
 }
 

@@ -1,16 +1,14 @@
-"use client";
-
 import { ActiveLink } from "@/ui/atoms/ActiveLink";
-import { Search } from "@/ui/atoms/Search";
-import { usePathname, useRouter } from "next/navigation";
+import { SearchInput } from "@/ui/atoms/SearchInput";
 
-export default function Navigation() {
-	const router = useRouter();
-	const pathname = usePathname();
+import { ShoppingCart } from "lucide-react";
+import { getCartFromCookies } from "@/api/cart";
+import { Search } from "../molecules/Search";
 
-	const handleSearch = (value: string) => {
-		router.push(`/search?query=${value}`);
-	};
+export default async function Navigation() {
+	const cart = await getCartFromCookies();
+	const quantity = cart?.orderItems.length || 0;
+
 	return (
 		<nav>
 			<ul className="mt-2 flex justify-center space-x-4">
@@ -34,8 +32,15 @@ export default function Navigation() {
 				<li>
 					<ActiveLink href="/categories/accessories">Accessories</ActiveLink>
 				</li>
+				<li>
+					<ActiveLink href="/cart">
+						<ShoppingCart size={24} />
+						<span className="ml-2 text-sm font-medium">{quantity}</span>
+						<span className="sr-only">items in cart, view bag</span>
+					</ActiveLink>
+				</li>
 			</ul>
-			<Search onSearch={handleSearch} />
+			<Search />
 		</nav>
 	);
 }

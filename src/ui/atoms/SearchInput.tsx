@@ -5,7 +5,7 @@ export type SearchProps = {
 	onSearch: (value: string) => void;
 };
 
-export const Search = (props: SearchProps) => {
+export const SearchInput = (props: SearchProps) => {
 	const { onSearch } = props;
 	const [value, setValue] = useState("");
 	const [isFocused, setIsFocused] = useState(false);

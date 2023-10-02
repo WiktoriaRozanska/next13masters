@@ -3,9 +3,9 @@ import { ProductCounter } from "@/ui/atoms/ProductCounter";
 import { ProductCoverImage } from "@/ui/atoms/ProductCoverImage";
 import { formatMoney } from "@/utils";
 import { VariantSelector } from "../atoms/VariantSelector";
-import { cookies } from "next/headers";
 import { AddToCartButton } from "../atoms/AddToCartButton";
 import { getOrCreateCart, addToCart } from "@/api/cart";
+import { revalidatePath } from "next/cache";
 
 type ProductItemProps = {
 	product: ProductItemFragment;
@@ -16,8 +16,9 @@ export const Product = ({ product }: ProductItemProps) => {
 		"use server";
 
 		const cart = await getOrCreateCart();
-		cookies().set("cartId", cart.id);
 		await addToCart(cart.id, formData.get("productId") as string);
+
+		revalidatePath("/");
 	}
 
 	return (

@@ -6,6 +6,7 @@ export const executeGraphql = async <TResult, TVariables>(
 	// ...variables: TVariables extends Record<string, never> ? [] : [TVariables]
 ): Promise<TResult> => {
 	const schemaUrl = process.env.GRAPHQL_SCHEMA || process.env.NEXT_PUBLIC_GRAPHQL_SCHEMA;
+	const access_token = process.env.GRAPHQL_ACCESS_TOKEN || process.env.NEXT_PUBLIC_GRAPHQL_ACCESS_TOKEN; //TODO: remove this
 	if (!schemaUrl) {
 		throw TypeError("GRAPHQL_SCHEMA is not defined");
 	}
@@ -18,7 +19,7 @@ export const executeGraphql = async <TResult, TVariables>(
 		}),
 		headers: {
 			"Content-Type": "application/json",
-			Authorization: `Bearer ${process.env.GRAPHQL_ACCESS_TOKEN}`,
+			Authorization: `Bearer ${access_token}`,
 		},
 	});
 
@@ -29,6 +30,7 @@ export const executeGraphql = async <TResult, TVariables>(
 	const graphqlResponse = (await res.json()) as GraphQLResponse<TResult>;
 
 	if (graphqlResponse.errors) {
+		console.log("GraphQL Error");
 		console.log(graphqlResponse.errors);
 
 		throw TypeError(`GraphQL Error`, { cause: graphqlResponse.errors });
