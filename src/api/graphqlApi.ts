@@ -16,7 +16,10 @@ export const executeGraphql = async <TResult, TVariables>(
 			query,
 			variables,
 		}),
-		headers: { "Content-Type": "application/json" },
+		headers: {
+			"Content-Type": "application/json",
+			Authorization: `Bearer ${process.env.GRAPHQL_ACCESS_TOKEN}`,
+		},
 	});
 
 	type GraphQLResponse<T> =

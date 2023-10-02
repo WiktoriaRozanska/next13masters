@@ -1,14 +1,32 @@
-import { ProductItemFragment } from "@/gql/graphql";
+import {
+	CartAddProductDocument,
+	CartCreateDocument,
+	CartFragment,
+	CartGetByIdDocument,
+	ProductGetByIdDocument,
+	ProductItemFragment,
+} from "@/gql/graphql";
 import { ProductCounter } from "@/ui/atoms/ProductCounter";
 import { ProductCoverImage } from "@/ui/atoms/ProductCoverImage";
 import { formatMoney } from "@/utils";
 import { VariantSelector } from "../atoms/VariantSelector";
+import { cookies } from "next/headers";
+import { executeGraphql } from "@/api/graphqlApi";
+import { AddToCartButton } from "../atoms/AddToCartButton";
 
 type ProductItemProps = {
 	product: ProductItemFragment;
 };
 
 export const Product = ({ product }: ProductItemProps) => {
+	async function addToCartAction(formData: FormData) {
+		"use server";
+
+		const cart = await getOrCreateCart();
+		cookies().set("cartId", cart.id);
+		await addToCart(cart.id, formData.get("productId") as string);
+	}
+
 	return (
 		<div className="flex flex-col justify-between gap-16 lg:flex-row lg:items-center">
 			<div className="flex flex-col gap-6 lg:w-2/4">
@@ -28,9 +46,44 @@ export const Product = ({ product }: ProductItemProps) => {
 				{product.variants && <VariantSelector variants={product.variants} />}
 				<div className="flex flex-row items-center gap-16">
 					<ProductCounter />
-					<button className="rounded-xl bg-teal-800 px-6 py-3 font-semibold text-white">Add to Cart</button>
+					<form action={addToCartAction}>
+						<input type="hidden" name="productId" value={product.id} />
+						<AddToCartButton />
+					</form>
 				</div>
 			</div>
 		</div>
 	);
 };
+
+async function getOrCreateCart(): Promise<CartFragment> {
+	const cartId = cookies().get("cartId")?.value;
+	if (cartId) {
+		const cart = await getCartById(cartId);
+		if (cart.orders[0]) {
+			return cart.orders[0];
+		}
+	}
+
+	const cart = await createCart();
+	if (!cart.createOrder) {
+		throw new Error("Cannot create cart");
+	}
+	return cart.createOrder;
+}
+
+async function getCartById(cartId: string) {
+	return executeGraphql(CartGetByIdDocument, { id: cartId });
+}
+
+function createCart() {
+	return executeGraphql(CartCreateDocument, {});
+}
+
+async function addToCart(orderId: string, productId: string) {
+	const { product } = await executeGraphql(ProductGetByIdDocument, { id: productId });
+	if (!product) {
+		throw new Error("Product not found");
+	}
+	await executeGraphql(CartAddProductDocument, { orderId, productId, total: product.price });
+}
