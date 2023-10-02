@@ -5,11 +5,13 @@ export const executeGraphql = async <TResult, TVariables>({
 	variables,
 	next,
 	cache,
+	headers,
 }: {
 	query: TypedDocumentString<TResult, TVariables>;
 	variables: TVariables;
 	next?: NextFetchRequestConfig;
 	cache?: RequestCache;
+	headers?: HeadersInit;
 }): Promise<TResult> => {
 	const schemaUrl = process.env.GRAPHQL_SCHEMA || process.env.NEXT_PUBLIC_GRAPHQL_SCHEMA;
 	const access_token = process.env.GRAPHQL_ACCESS_TOKEN || process.env.NEXT_PUBLIC_GRAPHQL_ACCESS_TOKEN; //TODO: remove this
@@ -24,6 +26,7 @@ export const executeGraphql = async <TResult, TVariables>({
 			variables,
 		}),
 		headers: {
+			...headers,
 			"Content-Type": "application/json",
 			Authorization: `Bearer ${access_token}`,
 		},
