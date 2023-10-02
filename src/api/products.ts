@@ -19,16 +19,18 @@ export const getProductsList = async (take = 8, skip = 0) => {
 	// // const products = productsResponse.map((product) => productResponseItemToProductItemType(product));
 	// return products;
 	// ====================================================================================================
-	const graphqlResponse = await executeGraphql(ProductsGetListDocument, { take: take, skip: skip });
+	const graphqlResponse = await executeGraphql({
+		query: ProductsGetListDocument,
+		variables: { take: take, skip: skip },
+	});
 
 	return graphqlResponse.products;
 };
 
 export const getProductsByCategorySlug = async (categorySlug: string, take = 8, skip = 0) => {
-	const categories = await executeGraphql(ProductsGetByCategorySlugDocument, {
-		slug: categorySlug,
-		take: take,
-		skip: skip,
+	const categories = await executeGraphql({
+		query: ProductsGetByCategorySlugDocument,
+		variables: { slug: categorySlug, take: take, skip: skip },
 	});
 	const category = categories.categories[0];
 
@@ -40,7 +42,10 @@ export const getProductsByCategorySlug = async (categorySlug: string, take = 8, 
 };
 
 export const getNumberOfProductsInCategory = async (categorySlug: string) => {
-	const res = await executeGraphql(ProductsGetAmountOfInCategoryDocument, { slug: categorySlug });
+	const res = await executeGraphql({
+		query: ProductsGetAmountOfInCategoryDocument,
+		variables: { slug: categorySlug },
+	});
 	if (!res.productsConnection) {
 		throw notFound();
 	}
@@ -49,8 +54,11 @@ export const getNumberOfProductsInCategory = async (categorySlug: string) => {
 };
 
 export const getProductsByCollectionSlug = async (collectionSlug: string) => {
-	const collection = await executeGraphql(ProductsGetByCollectionSlugDocument, {
-		slug: collectionSlug,
+	const collection = await executeGraphql({
+		query: ProductsGetByCollectionSlugDocument,
+		variables: {
+			slug: collectionSlug,
+		},
 	});
 	const products = collection.collections[0]?.products;
 
@@ -62,8 +70,11 @@ export const getProductsByCollectionSlug = async (collectionSlug: string) => {
 };
 
 export const getProductsByProvidedValue = async (searchvalue: string) => {
-	const result = await executeGraphql(ProductsGetByProvidedValueDocument, {
-		searchString: searchvalue,
+	const result = await executeGraphql({
+		query: ProductsGetByProvidedValueDocument,
+		variables: {
+			searchString: searchvalue,
+		},
 	});
 	const products = result.products;
 
@@ -75,7 +86,7 @@ export const getProductsByProvidedValue = async (searchvalue: string) => {
 };
 
 export const getProductById = async (id: ProductListItemFragment["id"]) => {
-	const res = await executeGraphql(ProductGetByIdDocument, { id: id });
+	const res = await executeGraphql({ query: ProductGetByIdDocument, variables: { id: id } });
 
 	if (!res.product) {
 		throw notFound();
@@ -85,7 +96,7 @@ export const getProductById = async (id: ProductListItemFragment["id"]) => {
 };
 
 export const getNumberOfProducts = async () => {
-	const res = await executeGraphql(ProductsGetAmountOfDocument, {});
+	const res = await executeGraphql({ query: ProductsGetAmountOfDocument, variables: {} });
 	if (!res.productsConnection) {
 		throw notFound();
 	}

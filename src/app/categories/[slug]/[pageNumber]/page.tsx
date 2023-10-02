@@ -10,7 +10,7 @@ export const generateMetadata = async ({
 }: {
 	params: { slug: string; pageNumber: number };
 }): Promise<Metadata> => {
-	const res = await executeGraphql(CategoryGetBySlugDocument, { slug: params.slug });
+	const res = await executeGraphql({ query: CategoryGetBySlugDocument, variables: { slug: params.slug } });
 	const category = res.categories as CategoryItemFragment[];
 	return {
 		title: category[0]?.name || "Undefined category",

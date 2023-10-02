@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 };
 
 export default async function Home() {
-	const res = await executeGraphql(CollectionsGetListDocument, {});
+	const res = await executeGraphql({ query: CollectionsGetListDocument, variables: {} });
 	const collections = res.collections as CollectionListItemFragment[];
 	return (
 		<section>

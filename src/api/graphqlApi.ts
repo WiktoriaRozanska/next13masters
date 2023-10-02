@@ -1,10 +1,16 @@
 import { TypedDocumentString } from "@/gql/graphql";
 
-export const executeGraphql = async <TResult, TVariables>(
-	query: TypedDocumentString<TResult, TVariables>,
-	variables: TVariables,
-	// ...variables: TVariables extends Record<string, never> ? [] : [TVariables]
-): Promise<TResult> => {
+export const executeGraphql = async <TResult, TVariables>({
+	query,
+	variables,
+	next,
+	cache,
+}: {
+	query: TypedDocumentString<TResult, TVariables>;
+	variables: TVariables;
+	next?: NextFetchRequestConfig;
+	cache?: RequestCache;
+}): Promise<TResult> => {
 	const schemaUrl = process.env.GRAPHQL_SCHEMA || process.env.NEXT_PUBLIC_GRAPHQL_SCHEMA;
 	const access_token = process.env.GRAPHQL_ACCESS_TOKEN || process.env.NEXT_PUBLIC_GRAPHQL_ACCESS_TOKEN; //TODO: remove this
 	if (!schemaUrl) {
@@ -21,6 +27,8 @@ export const executeGraphql = async <TResult, TVariables>(
 			"Content-Type": "application/json",
 			Authorization: `Bearer ${access_token}`,
 		},
+		next,
+		cache,
 	});
 
 	type GraphQLResponse<T> =

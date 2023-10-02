@@ -5,7 +5,7 @@ import { formatMoney } from "@/utils";
 import { VariantSelector } from "../atoms/VariantSelector";
 import { AddToCartButton } from "../atoms/AddToCartButton";
 import { getOrCreateCart, addToCart } from "@/api/cart";
-import { revalidatePath } from "next/cache";
+import { revalidateTag } from "next/cache";
 
 type ProductItemProps = {
 	product: ProductItemFragment;
@@ -18,7 +18,8 @@ export const Product = ({ product }: ProductItemProps) => {
 		const cart = await getOrCreateCart();
 		await addToCart(cart.id, formData.get("productId") as string);
 
-		revalidatePath("/");
+		// revalidatePath("/");
+		revalidateTag("cart");
 	}
 
 	return (

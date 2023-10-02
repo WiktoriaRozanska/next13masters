@@ -5,7 +5,7 @@ import { ProductList } from "@/ui/organisms/ProductList";
 import { Metadata } from "next";
 
 export const generateMetadata = async ({ params }: { params: { slug: string } }): Promise<Metadata> => {
-	const res = await executeGraphql(CollectionGetBySlugDocument, { slug: params.slug });
+	const res = await executeGraphql({ query: CollectionGetBySlugDocument, variables: { slug: params.slug } });
 	const collections = res.collections as CollectionListItemFragment[];
 	return {
 		title: collections[0]?.name || "Undefined collection",
@@ -15,7 +15,7 @@ export const generateMetadata = async ({ params }: { params: { slug: string } })
 
 export default async function CollectionProducts({ params }: { params: { slug: string } }) {
 	const products = await getProductsByCollectionSlug(params.slug);
-	const res = await executeGraphql(CollectionGetBySlugDocument, { slug: params.slug });
+	const res = await executeGraphql({ query: CollectionGetBySlugDocument, variables: { slug: params.slug } });
 	const collections = res.collections as CollectionListItemFragment[];
 	return (
 		<>
