@@ -1,5 +1,6 @@
 import { getCartFromCookies } from "@/api/cart";
 import { IncrementProductQuantity } from "@/ui/atoms/IncrementProductQuantity";
+import { RemoveButton } from "@/ui/atoms/RemoveButton";
 import { formatMoney } from "@/utils";
 import { redirect } from "next/navigation";
 
@@ -17,6 +18,7 @@ export default async function CartPage() {
 							<th>Product</th>
 							<th>Quantity</th>
 							<th>Price</th>
+							<th></th>
 						</tr>
 					</thead>
 					<tbody>
@@ -29,6 +31,9 @@ export default async function CartPage() {
 											<IncrementProductQuantity quantity={item.quantity} itemId={item.id} />
 										</td>
 										<td>{formatMoney(item.product.price / 100)}</td>
+										<td>
+											<RemoveButton itemId={item.id} />
+										</td>
 									</tr>
 								),
 						)}
