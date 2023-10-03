@@ -29,6 +29,7 @@ export async function getCartFromCookies() {
 			query: CartGetByIdDocument,
 			variables: { id: cartId },
 			next: { tags: ["cart"] },
+			cache: "no-store",
 		});
 		if (cart.orders[0]) {
 			return cart.orders[0];
@@ -37,7 +38,7 @@ export async function getCartFromCookies() {
 }
 
 export function createCart() {
-	return executeGraphql({ query: CartCreateDocument, variables: {} });
+	return executeGraphql({ query: CartCreateDocument, variables: {}, cache: "no-store" });
 }
 
 export async function addToCart(orderId: string, productId: string) {
@@ -48,5 +49,6 @@ export async function addToCart(orderId: string, productId: string) {
 	await executeGraphql({
 		query: CartAddProductDocument,
 		variables: { orderId, productId, total: product.price },
+		cache: "no-store",
 	});
 }
