@@ -2,6 +2,7 @@ import Navigation from "@/ui/organisms/Navigation";
 import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import React from "react";
 
 const inter = Inter({ subsets: ["latin", "latin-ext"] });
 
@@ -9,7 +10,13 @@ export const metadata: Metadata = {
 	title: "Products",
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+	children,
+	modal,
+}: {
+	children: React.ReactNode;
+	modal: React.ReactNode;
+}) {
 	return (
 		<html lang="pl">
 			<body className={inter.className}>
@@ -20,6 +27,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 				<footer>
 					<p className="text-center text-sm text-gray-500">© 2023</p>
 				</footer>
+				{modal}
 			</body>
 		</html>
 	);
