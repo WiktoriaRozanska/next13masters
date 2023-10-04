@@ -3,12 +3,14 @@ import { IncrementProductQuantity } from "@/ui/atoms/IncrementProductQuantity";
 import { RemoveButton } from "@/ui/atoms/RemoveButton";
 import { formatMoney } from "@/utils";
 import { redirect } from "next/navigation";
+import { handlePaymentAction } from "@/app/cart/action";
 
 export default async function CartPage() {
 	const cart = await getCartFromCookies();
 	if (!cart || !cart.orderItems) {
 		redirect("/");
 	}
+
 	return (
 		<>
 			<div className="mt-10">
@@ -39,6 +41,14 @@ export default async function CartPage() {
 						)}
 					</tbody>
 				</table>
+				<form action={handlePaymentAction}>
+					<button
+						type="submit"
+						className="mt-4 w-full max-w-xs rounded-md border bg-slate-950 py-2 text-white shadow-sm"
+					>
+						Pay
+					</button>
+				</form>
 			</div>
 		</>
 	);
