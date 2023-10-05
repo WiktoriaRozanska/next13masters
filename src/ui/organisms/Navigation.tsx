@@ -10,7 +10,7 @@ export default async function Navigation() {
 	const quantity = cart?.orderItems.length || 0;
 
 	return (
-		<nav>
+		<nav className="m-0 bg-teal-50 p-3">
 			<ul className="mt-2 flex justify-center space-x-4">
 				<li>
 					<ActiveLink href="/" exact={true}>

@@ -4,6 +4,7 @@ import { getProductById } from "@/api/products";
 import { SuggestedProductList } from "@/ui/organisms/SuggestedProduct";
 import { Product } from "@/ui/organisms/Product";
 import { RatingForm } from "@/ui/organisms/RatingForm";
+import { ReviewList } from "@/ui/organisms/ReviewList";
 
 // export const generateStaticParams = async () => {
 // 	const products = await getProductsList();
@@ -37,6 +38,9 @@ export default async function SingleProductPage({ params }: { params: { productI
 					<SuggestedProductList />
 				</Suspense>
 				<RatingForm productId={product.id} />
+				<Suspense fallback={"Ładowanie..."}>
+					<ReviewList productId={product.id} />
+				</Suspense>
 			</aside>
 		</>
 	);

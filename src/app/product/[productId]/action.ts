@@ -2,6 +2,7 @@
 
 import { executeGraphql } from "@/api/graphqlApi";
 import { ReviewCreateDocument } from "@/gql/graphql";
+import { revalidateTag } from "next/cache";
 // import { ReviewCreateDocument } from "@/gql/graphql";
 
 export async function handleReviewAction(formData: FormData) {
@@ -17,7 +18,10 @@ export async function handleReviewAction(formData: FormData) {
 	const res = await executeGraphql({
 		query: ReviewCreateDocument,
 		variables: { productId, headline, content, rating, name, email },
+		next: { tags: ["review"] },
 	});
 	console.log(res);
 	console.log("review sent");
+	revalidateTag("review");
+	console.log("revalidate review");
 }

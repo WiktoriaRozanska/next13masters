@@ -12,7 +12,7 @@ export const RatingForm = ({ productId }: { productId: string }) => {
 	};
 
 	return (
-		<div className="w-[450px]">
+		<div className="m-auto w-[450px]">
 			<h2 className="mt-6 text-xl">We are waiting for your review</h2>
 			<form action={handleReviewAction} className="flex flex-col" data-testid="add-review-form">
 				<input type="text" name="productId" value={productId} hidden />
