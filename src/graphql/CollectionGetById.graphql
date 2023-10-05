@@ -1,0 +1,5 @@
+query CollectionGetById($collectionId: ID!) {
+	collections(where: { id: $collectionId }) {
+		...CollectionListItem
+	}
+}

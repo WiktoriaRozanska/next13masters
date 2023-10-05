@@ -1,0 +1,5 @@
+query CategoryGetById($categoryId: ID!) {
+	categories(where: { id: $categoryId }) {
+		...CategoryItem
+	}
+}

@@ -10753,14 +10753,28 @@ export type CartSetProductQuantityMutationVariables = Exact<{
 
 export type CartSetProductQuantityMutation = { updateOrderItem?: { id: string } | null };
 
+export type CategoryGetByIdQueryVariables = Exact<{
+  categoryId: Scalars['ID']['input'];
+}>;
+
+
+export type CategoryGetByIdQuery = { categories: Array<{ id: string, name: string, description?: string | null, slug: string }> };
+
 export type CategoryGetBySlugQueryVariables = Exact<{
   slug: Scalars['String']['input'];
 }>;
 
 
-export type CategoryGetBySlugQuery = { categories: Array<{ id: string, name: string, description?: string | null }> };
+export type CategoryGetBySlugQuery = { categories: Array<{ id: string, name: string, description?: string | null, slug: string }> };
 
-export type CategoryItemFragment = { id: string, name: string, description?: string | null };
+export type CategoryItemFragment = { id: string, name: string, description?: string | null, slug: string };
+
+export type CollectionGetByIdQueryVariables = Exact<{
+  collectionId: Scalars['ID']['input'];
+}>;
+
+
+export type CollectionGetByIdQuery = { collections: Array<{ id: string, name: string, description?: string | null, slug: string, image: { id: string, url: string } }> };
 
 export type CollectionGetBySlugQueryVariables = Exact<{
   slug: Scalars['String']['input'];
@@ -10864,6 +10878,7 @@ export const CategoryItemFragmentDoc = new TypedDocumentString(`
   id
   name
   description
+  slug
 }
     `, {"fragmentName":"CategoryItem"}) as unknown as TypedDocumentString<CategoryItemFragment, unknown>;
 export const CollectionListItemFragmentDoc = new TypedDocumentString(`
@@ -11001,6 +11016,18 @@ export const CartSetProductQuantityDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<CartSetProductQuantityMutation, CartSetProductQuantityMutationVariables>;
+export const CategoryGetByIdDocument = new TypedDocumentString(`
+    query CategoryGetById($categoryId: ID!) {
+  categories(where: {id: $categoryId}) {
+    ...CategoryItem
+  }
+}
+    fragment CategoryItem on Category {
+  id
+  name
+  description
+  slug
+}`) as unknown as TypedDocumentString<CategoryGetByIdQuery, CategoryGetByIdQueryVariables>;
 export const CategoryGetBySlugDocument = new TypedDocumentString(`
     query CategoryGetBySlug($slug: String!) {
   categories(where: {slug: $slug}) {
@@ -11011,7 +11038,24 @@ export const CategoryGetBySlugDocument = new TypedDocumentString(`
   id
   name
   description
+  slug
 }`) as unknown as TypedDocumentString<CategoryGetBySlugQuery, CategoryGetBySlugQueryVariables>;
+export const CollectionGetByIdDocument = new TypedDocumentString(`
+    query CollectionGetById($collectionId: ID!) {
+  collections(where: {id: $collectionId}) {
+    ...CollectionListItem
+  }
+}
+    fragment CollectionListItem on Collection {
+  id
+  name
+  description
+  slug
+  image {
+    id
+    url
+  }
+}`) as unknown as TypedDocumentString<CollectionGetByIdQuery, CollectionGetByIdQueryVariables>;
 export const CollectionGetBySlugDocument = new TypedDocumentString(`
     query CollectionGetBySlug($slug: String!) {
   collections(where: {slug: $slug}) {
