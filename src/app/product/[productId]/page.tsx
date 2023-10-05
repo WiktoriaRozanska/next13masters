@@ -3,6 +3,7 @@ import { type Metadata } from "next";
 import { getProductById } from "@/api/products";
 import { SuggestedProductList } from "@/ui/organisms/SuggestedProduct";
 import { Product } from "@/ui/organisms/Product";
+import { RatingForm } from "@/ui/organisms/RatingForm";
 
 // export const generateStaticParams = async () => {
 // 	const products = await getProductsList();
@@ -35,6 +36,7 @@ export default async function SingleProductPage({ params }: { params: { productI
 				<Suspense fallback={"Ładowanie..."}>
 					<SuggestedProductList />
 				</Suspense>
+				<RatingForm productId={product.id} />
 			</aside>
 		</>
 	);
