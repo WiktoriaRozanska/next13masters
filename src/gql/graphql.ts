@@ -10854,16 +10854,16 @@ export type ReviewCreateMutationVariables = Exact<{
 }>;
 
 
-export type ReviewCreateMutation = { createReview?: { id: string, headline: string, content: string, rating: number, name: string, email: string, createdAt: unknown, product?: { id: string, name: string } | null } | null };
+export type ReviewCreateMutation = { createReview?: { id: string, headline: string, content: string, rating: number, name: string, email: string, createdAt: unknown } | null };
 
-export type ReviewItemFragmentFragment = { id: string, headline: string, content: string, rating: number, name: string, email: string, createdAt: unknown, product?: { id: string, name: string } | null };
+export type ReviewItemFragmentFragment = { id: string, headline: string, content: string, rating: number, name: string, email: string, createdAt: unknown };
 
 export type ReviewsGetByProductIdQueryVariables = Exact<{
   productId: Scalars['ID']['input'];
 }>;
 
 
-export type ReviewsGetByProductIdQuery = { reviews: Array<{ id: string, headline: string, content: string, rating: number, name: string, email: string, createdAt: unknown, product?: { id: string, name: string } | null }> };
+export type ReviewsGetByProductIdQuery = { reviews: Array<{ id: string, headline: string, content: string, rating: number, name: string, email: string, createdAt: unknown }> };
 
 export class TypedDocumentString<TResult, TVariables>
   extends String
@@ -10979,10 +10979,6 @@ export const ProductListItemFragmentDoc = new TypedDocumentString(`
 export const ReviewItemFragmentFragmentDoc = new TypedDocumentString(`
     fragment ReviewItemFragment on Review {
   id
-  product {
-    id
-    name
-  }
   headline
   content
   rating
@@ -11332,10 +11328,6 @@ export const ReviewCreateDocument = new TypedDocumentString(`
 }
     fragment ReviewItemFragment on Review {
   id
-  product {
-    id
-    name
-  }
   headline
   content
   rating
@@ -11351,10 +11343,6 @@ export const ReviewsGetByProductIdDocument = new TypedDocumentString(`
 }
     fragment ReviewItemFragment on Review {
   id
-  product {
-    id
-    name
-  }
   headline
   content
   rating

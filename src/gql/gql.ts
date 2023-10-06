@@ -37,7 +37,7 @@ const documents = {
     "query ProductsGetByProvidedValue($searchString: String!) {\n  products(where: {_search: $searchString}) {\n    ...ProductListItem\n  }\n}": types.ProductsGetByProvidedValueDocument,
     "query ProductsGetList($take: Int!, $skip: Int!) {\n  products(first: $take, skip: $skip) {\n    ...ProductListItem\n  }\n}": types.ProductsGetListDocument,
     "mutation ReviewCreate($productId: ID!, $headline: String!, $content: String!, $rating: Int!, $name: String!, $email: String!) {\n  createReview(\n    data: {product: {connect: {id: $productId}}, headline: $headline, content: $content, rating: $rating, name: $name, email: $email}\n  ) {\n    ...ReviewItemFragment\n  }\n}": types.ReviewCreateDocument,
-    "fragment ReviewItemFragment on Review {\n  id\n  product {\n    id\n    name\n  }\n  headline\n  content\n  rating\n  name\n  email\n  createdAt\n}": types.ReviewItemFragmentFragmentDoc,
+    "fragment ReviewItemFragment on Review {\n  id\n  headline\n  content\n  rating\n  name\n  email\n  createdAt\n}": types.ReviewItemFragmentFragmentDoc,
     "query ReviewsGetByProductId($productId: ID!) {\n  reviews(where: {product: {id: $productId}}) {\n    ...ReviewItemFragment\n  }\n}": types.ReviewsGetByProductIdDocument,
 };
 
@@ -136,7 +136,7 @@ export function graphql(source: "mutation ReviewCreate($productId: ID!, $headlin
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "fragment ReviewItemFragment on Review {\n  id\n  product {\n    id\n    name\n  }\n  headline\n  content\n  rating\n  name\n  email\n  createdAt\n}"): typeof import('./graphql').ReviewItemFragmentFragmentDoc;
+export function graphql(source: "fragment ReviewItemFragment on Review {\n  id\n  headline\n  content\n  rating\n  name\n  email\n  createdAt\n}"): typeof import('./graphql').ReviewItemFragmentFragmentDoc;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

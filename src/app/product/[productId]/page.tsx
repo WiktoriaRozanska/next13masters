@@ -5,6 +5,9 @@ import { SuggestedProductList } from "@/ui/organisms/SuggestedProduct";
 import { Product } from "@/ui/organisms/Product";
 import { RatingForm } from "@/ui/organisms/RatingForm";
 import { ReviewList } from "@/ui/organisms/ReviewList";
+import { ReviewSection } from "@/ui/organisms/ReviewSection";
+import { executeGraphql } from "@/api/graphqlApi";
+import { ReviewsGetByProductIdDocument } from "@/gql/graphql";
 
 // export const generateStaticParams = async () => {
 // 	const products = await getProductsList();
@@ -26,6 +29,8 @@ export const generateMetadata = async ({ params }: { params: { productId: string
 
 export default async function SingleProductPage({ params }: { params: { productId: string } }) {
 	const product = await getProductById(params.productId);
+	const productId = params.productId;
+	const res = await executeGraphql({ query: ReviewsGetByProductIdDocument, variables: { productId } });
 	return (
 		<>
 			<article className="mx-auto max-w-7xl p-8">
@@ -37,9 +42,10 @@ export default async function SingleProductPage({ params }: { params: { productI
 				<Suspense fallback={"Ładowanie..."}>
 					<SuggestedProductList />
 				</Suspense>
-				<RatingForm productId={product.id} />
+				{/* <RatingForm productId={product.id} /> */}
 				<Suspense fallback={"Ładowanie..."}>
-					<ReviewList productId={product.id} />
+					<ReviewSection reviews={res.reviews} productId={productId} />
+					{/* <ReviewList productId={product.id} /> */}
 				</Suspense>
 			</aside>
 		</>
