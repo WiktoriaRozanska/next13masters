@@ -32,7 +32,7 @@ export const RatingForm = ({ productId }: { productId: string }) => {
 				<label>Rating</label>
 				<div>
 					<Rating
-						name="rating"
+						name="starts"
 						value={rating}
 						onStarClick={(nextValue, prevValue, name) => handleStarClick(nextValue, prevValue, name)}
 						starCount={5}
@@ -40,6 +40,7 @@ export const RatingForm = ({ productId }: { productId: string }) => {
 						emptyStarColor={"#ccc"}
 					/>
 				</div>
+				<input type="text" name="rating" hidden value={rating} />
 				<label>Name</label>
 				<input
 					type="text"
