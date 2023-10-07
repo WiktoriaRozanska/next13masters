@@ -16,7 +16,7 @@ export const Product = ({ product }: ProductItemProps) => {
 		"use server";
 
 		const cart = await getOrCreateCart();
-		await addToCart(cart.id, formData.get("productId") as string);
+		await addToCart(cart.id, formData.get("productId") as string, cart);
 
 		// revalidatePath("/");
 		revalidateTag("cart");
@@ -40,7 +40,7 @@ export const Product = ({ product }: ProductItemProps) => {
 				{/* Tutaj dodac opcje */}
 				{product.variants && <VariantSelector variants={product.variants} />}
 				<div className="flex flex-row items-center gap-16">
-					<ProductCounter />
+					{/* <ProductCounter /> */}
 					<form action={addToCartAction}>
 						<input type="hidden" name="productId" value={product.id} />
 						<AddToCartButton />
