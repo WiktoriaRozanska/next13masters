@@ -3,8 +3,6 @@ import { type Metadata } from "next";
 import { getProductById } from "@/api/products";
 import { SuggestedProductList } from "@/ui/organisms/SuggestedProduct";
 import { Product } from "@/ui/organisms/Product";
-import { RatingForm } from "@/ui/organisms/RatingForm";
-import { ReviewList } from "@/ui/organisms/ReviewList";
 import { ReviewSection } from "@/ui/organisms/ReviewSection";
 import { executeGraphql } from "@/api/graphqlApi";
 import { ReviewsGetByProductIdDocument } from "@/gql/graphql";
@@ -42,10 +40,8 @@ export default async function SingleProductPage({ params }: { params: { productI
 				<Suspense fallback={"Ładowanie..."}>
 					<SuggestedProductList />
 				</Suspense>
-				{/* <RatingForm productId={product.id} /> */}
 				<Suspense fallback={"Ładowanie..."}>
 					<ReviewSection reviews={res.reviews} productId={productId} />
-					{/* <ReviewList productId={product.id} /> */}
 				</Suspense>
 			</aside>
 		</>
