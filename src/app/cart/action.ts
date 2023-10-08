@@ -2,10 +2,19 @@
 
 import { executeGraphql } from "@/api/graphqlApi";
 import { CartRemoveProductDocument, CartSetProductQuantityDocument } from "@/gql/graphql";
+import { revalidateTag } from "next/cache";
 import { cookies } from "next/headers";
 
-export const changeItemQuantity = (itemId: string, quantity: number) => {
-	return executeGraphql({ query: CartSetProductQuantityDocument, variables: { itemId, quantity } });
+export const changeItemQuantity = async (itemId: string, quantity: number) => {
+	if (quantity > 0) {
+		return executeGraphql({ query: CartSetProductQuantityDocument, variables: { itemId, quantity } });
+	}
+
+	if (quantity === 0) {
+		await removeItem(itemId);
+	}
+
+	revalidateTag("cart");
 };
 
 export const removeItem = (itemId: string) => {
