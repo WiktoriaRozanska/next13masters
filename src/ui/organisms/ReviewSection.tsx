@@ -88,7 +88,7 @@ export const ReviewSection = ({
 							emptyStarColor={"#ccc"}
 						/>
 					</div>
-					<input type="text" name="rating" hidden value={rating} />
+					<input type="text" name="rating" value={rating} />
 					<label>Name</label>
 					<input
 						type="text"

@@ -28,7 +28,7 @@ export const IncrementAndDecremenProductQuantity = ({
 			>
 				-
 			</button>
-			{optymisticQuantity}
+			<span data-testid="quantity">{optymisticQuantity}</span>
 			<button
 				data-testid="increment"
 				className="ml-2 h-8 w-8 rounded-xl border bg-slate-50"

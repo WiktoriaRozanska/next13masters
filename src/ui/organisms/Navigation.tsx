@@ -17,6 +17,11 @@ export default async function Navigation() {
 						Home
 					</ActiveLink>
 				</li>
+				<ActiveLink href="/cart">
+					<ShoppingCart size={24} />
+					<span className="ml-2 text-sm font-medium">{quantity}</span>
+					<span className="sr-only">items in cart, view bag</span>
+				</ActiveLink>
 				<li>
 					<ActiveLink href="/products">All</ActiveLink>
 				</li>
@@ -31,13 +36,6 @@ export default async function Navigation() {
 				</li>
 				<li>
 					<ActiveLink href="/categories/accessories">Accessories</ActiveLink>
-				</li>
-				<li>
-					<ActiveLink href="/cart">
-						<ShoppingCart size={24} />
-						<span className="ml-2 text-sm font-medium">{quantity}</span>
-						<span className="sr-only">items in cart, view bag</span>
-					</ActiveLink>
 				</li>
 			</ul>
 			<Search />

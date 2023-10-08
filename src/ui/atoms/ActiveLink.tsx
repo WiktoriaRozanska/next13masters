@@ -24,7 +24,12 @@ export const ActiveLink = <T extends Route>({
 	const pathname = usePathname();
 	const isActive = exact ? pathname === href : pathname.startsWith(href);
 	return (
-		<Link href={{ pathname: href }} className={clsx(className, isActive && activeClassName)}>
+		<Link
+			href={{ pathname: href }}
+			className={clsx(className, isActive && activeClassName)}
+			aria-current={isActive ? true : undefined}
+			role="link"
+		>
 			{children}
 		</Link>
 	);
