@@ -4,6 +4,7 @@ import { SearchInput } from "@/ui/atoms/SearchInput";
 import { ShoppingCart } from "lucide-react";
 import { getCartFromCookies } from "@/api/cart";
 import { Search } from "../molecules/Search";
+import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 
 export default async function Navigation() {
 	const cart = await getCartFromCookies();
@@ -39,6 +40,14 @@ export default async function Navigation() {
 				</li>
 			</ul>
 			<Search />
+			<div>
+				<SignedIn>
+					<UserButton />
+				</SignedIn>
+				<SignedOut>
+					<SignInButton />
+				</SignedOut>
+			</div>
 		</nav>
 	);
 }
